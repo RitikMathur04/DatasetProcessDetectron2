@@ -1,0 +1,27 @@
+# install dependencies: 
+!pip install pyyaml==5.1 pycocotools>=2.0.1
+import torch, torchvision
+print(torch.__version__, torch.cuda.is_available())
+!gcc --version
+# opencv is pre-installed on colab
+
+
+!git clone https://github.com/facebookresearch/detectron2.git
+!python -m pip install -e detectron2
+
+#convert RGB to grayscale image
+from google.colab.patches import cv2_imshow
+import cv2
+image=cv2.imread('/content/18.png')
+18gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+cv2_imshow(18gray)
+
+cd /content/detectron2/demo
+!python demo.py --config-file ../configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml \
+  --input /content/18gray.png --output /content/18grayoutput.png \
+  --opts MODEL.WEIGHTS detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl
+  
+im1=cv2.imread('/content/18grayoutput.png')
+im2=cv2.imread('/content/18gray.png')
+im3=cv2.subtract(im1,im2)
+cv2_imshow(im3)
