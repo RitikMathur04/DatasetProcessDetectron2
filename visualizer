@@ -1,4 +1,5 @@
-# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+# to get only human seg mask detectron2
+
 import colorsys
 import logging
 import math
