@@ -1,0 +1,17 @@
+# install dependencies: 
+!pip install pyyaml==5.1 pycocotools>=2.0.1
+import torch, torchvision
+print(torch.__version__, torch.cuda.is_available())
+!gcc --version
+# opencv is pre-installed on colab
+
+!git clone https://github.com/facebookresearch/detectron2.git
+!python -m pip install -e detectron2
+
+%cd /content/detectron2/demo
+!python demo.py --config-file ../configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml \
+  --input /content/*.png --output /content/ \
+  --opts MODEL.WEIGHTS detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl
+!zip -r /content/file.zip /content/*.png
+from google.colab import files
+files.download("/content/file.zip")  
